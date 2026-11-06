@@ -1,12 +1,15 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../lib/expense_cubit.dart';
-import '../lib/expense_model.dart';
+import 'package:expense_tracker_2/expense_cubit.dart';
+import 'package:expense_tracker_2/expense_model.dart';
 import 'mock_expense_repository.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late MockExpenseRepository mockRepository;
 
   final testExpense = Expense(
@@ -22,15 +25,15 @@ void main() {
   });
 
   setUp(() {
+    SharedPreferences.setMockInitialValues({});
     mockRepository = MockExpenseRepository();
   });
 
   group('ExpenseCubit Tests', () {
-    test('Initial state is ExpenseLoading before async initialization completes', () {
+    test('Initial state is ExpenseLoading before constructor load completes', () {
       when(() => mockRepository.loadExpenses()).thenAnswer((_) async => []);
       final cubit = ExpenseCubit(mockRepository);
 
-      // Verify initial state sync
       expect(cubit.state, isA<ExpenseLoading>());
     });
 
@@ -41,11 +44,9 @@ void main() {
         return ExpenseCubit(mockRepository);
       },
       expect: () => [
-        isA<ExpenseLoaded>().having(
-              (state) => state.allExpenses.length,
-          'allExpenses length',
-          1,
-        ),
+        isA<ExpenseLoaded>()
+            .having((s) => s.allExpenses.length, 'allExpenses length', 1)
+            .having((s) => s.selectedCategory, 'category', 'All'),
       ],
       verify: (_) {
         verify(() => mockRepository.loadExpenses()).called(1);
@@ -60,13 +61,14 @@ void main() {
         return ExpenseCubit(mockRepository);
       },
       act: (cubit) async {
-        // Wait for initial constructor load to settle before calling addExpense
-        await Future.delayed(Duration.zero);
+        await pumpEventQueue();
         await cubit.addExpense(testExpense);
       },
+      skip: 1, // Skip initial ExpenseLoaded from constructor
       expect: () => [
-        isA<ExpenseLoaded>().having((s) => s.allExpenses.length, 'empty initially', 0),
-        isA<ExpenseLoaded>().having((s) => s.allExpenses.length, 'contains 1 item', 1),
+        isA<ExpenseLoaded>()
+            .having((s) => s.allExpenses.length, 'allExpenses length', 1)
+            .having((s) => s.filteredExpenses.length, 'filteredExpenses length', 1),
       ],
       verify: (_) {
         verify(() => mockRepository.saveExpenses(any())).called(1);
@@ -89,12 +91,14 @@ void main() {
         return ExpenseCubit(mockRepository);
       },
       act: (cubit) async {
-        await Future.delayed(Duration.zero);
+        await pumpEventQueue();
         cubit.updateCategoryFilter('Food');
       },
+      skip: 1, // Skip initial unfiltered ExpenseLoaded from constructor
       expect: () => [
-        isA<ExpenseLoaded>().having((s) => s.filteredExpenses.length, 'unfiltered', 2),
-        isA<ExpenseLoaded>().having((s) => s.filteredExpenses.length, 'filtered to Food', 1),
+        isA<ExpenseLoaded>()
+            .having((s) => s.filteredExpenses.length, 'filteredExpenses length', 1)
+            .having((s) => s.selectedCategory, 'selectedCategory', 'Food'),
       ],
     );
   });
