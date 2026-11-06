@@ -84,7 +84,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Live Preview Card Header
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
@@ -131,8 +130,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
                 ],
               ),
             ),
-
-            // Main Form Section
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Form(
@@ -145,8 +142,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 16),
-
-                    // Title Field
                     TextFormField(
                       controller: _titleController,
                       decoration: InputDecoration(
@@ -165,8 +160,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
                       },
                     ),
                     const SizedBox(height: 16),
-
-                    // Amount Field
                     TextFormField(
                       controller: _amountController,
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -190,8 +183,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
                       },
                     ),
                     const SizedBox(height: 16),
-
-                    // Category Selection Dropdown
                     DropdownButtonFormField<String>(
                       value: _selectedCategory,
                       decoration: InputDecoration(
@@ -214,8 +205,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
                       },
                     ),
                     const SizedBox(height: 16),
-
-                    // Date Selection Card
                     InkWell(
                       onTap: () async {
                         final pickedDate = await showDatePicker(
@@ -262,8 +251,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
                       ),
                     ),
                     const SizedBox(height: 32),
-
-                    // Submit Action Button
                     ElevatedButton(
                       onPressed: _submitData,
                       style: ElevatedButton.styleFrom(

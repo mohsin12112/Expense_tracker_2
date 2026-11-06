@@ -64,7 +64,6 @@ class _SplashView extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Background Decorative Glass Circles
             Positioned(
               top: -80,
               right: -80,
@@ -89,12 +88,9 @@ class _SplashView extends StatelessWidget {
                 ),
               ),
             ),
-
-            // Main Branding Content
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Animated Glowing Icon Badge
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
@@ -128,8 +124,6 @@ class _SplashView extends StatelessWidget {
                     .fadeIn(duration: 500.ms),
 
                 const SizedBox(height: 32),
-
-                // Animated App Title
                 const Text(
                   "EXPENSE TRACKER",
                   style: TextStyle(
@@ -144,8 +138,6 @@ class _SplashView extends StatelessWidget {
                     .moveY(begin: 20, end: 0, curve: Curves.easeOut),
 
                 const SizedBox(height: 8),
-
-                // Animated Tagline
                 Text(
                   "Smart Financial Management",
                   style: TextStyle(
@@ -160,8 +152,6 @@ class _SplashView extends StatelessWidget {
                     .moveY(begin: 15, end: 0, curve: Curves.easeOut),
               ],
             ),
-
-            // Bottom Loader & Version Indicator
             Positioned(
               bottom: 60,
               child: Column(

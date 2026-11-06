@@ -11,8 +11,6 @@ void main() async {
 abstract class AppTheme {
   static const Color primaryColor = Color(0xFF004D40);
   static const Color accentColor = Color(0xFF00C853);
-
-  // Light Theme
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -37,8 +35,6 @@ abstract class AppTheme {
       ),
     );
   }
-
-  // Dark Theme
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,

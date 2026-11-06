@@ -70,8 +70,6 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     emit(const ExpenseLoading());
     try {
       final expenses = await _repository.loadExpenses();
-
-      // Read saved budget from SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       final savedBudget = prefs.getDouble('monthly_budget_key') ?? 50000.0;
 
@@ -208,22 +206,17 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     required SortOption sort,
   }) {
     List<Expense> filtered = List.from(expenses);
-
-    // 1. Filter by Category
     if (category != 'All') {
       filtered = filtered
           .where((e) => e.category.toLowerCase() == category.toLowerCase())
           .toList();
     }
 
-    // 2. Search by Title Query
     if (searchQuery.trim().isNotEmpty) {
       filtered = filtered
           .where((e) => e.title.toLowerCase().contains(searchQuery.toLowerCase().trim()))
           .toList();
     }
-
-    // 3. Sort List
     switch (sort) {
       case SortOption.newest:
         filtered.sort((a, b) => b.date.compareTo(a.date));

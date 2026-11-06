@@ -33,7 +33,6 @@
         appBar: AppBar(
           title: const Text('Expense Tracker'),
           actions: [
-            // Export Menu Button (CSV / PDF)
             BlocBuilder<ExpenseCubit, ExpenseState>(
               builder: (context, state) {
                 return PopupMenuButton<String>(
@@ -86,8 +85,6 @@
                 );
               },
             ),
-
-            // Theme Switcher Icon
             BlocBuilder<ThemeCubit, ThemeMode>(
               builder: (context, themeMode) {
                 final isDark = themeMode == ThemeMode.dark ||
@@ -102,8 +99,6 @@
                 );
               },
             ),
-
-            // Sort Menu Button
             PopupMenuButton<SortOption>(
               icon: const Icon(Icons.sort),
               tooltip: 'Sort Expenses',
@@ -133,7 +128,6 @@
         ),
         body: Column(
           children: [
-            // Total Spent Card
             BlocBuilder<ExpenseCubit, ExpenseState>(
               builder: (context, state) {
                 final total =
@@ -167,11 +161,7 @@
                 );
               },
             ),
-
-            // Monthly Target Budget Limits Progress Bar Card
             const BudgetCardWidget(),
-
-            // Search Section
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: TextField(
@@ -188,8 +178,6 @@
                 },
               ),
             ),
-
-            // Category Chips
             BlocBuilder<ExpenseCubit, ExpenseState>(
               builder: (context, state) {
                 final selectedCategory =
@@ -240,8 +228,6 @@
               },
             ),
             const SizedBox(height: 10),
-
-            // Transactions List, Chart & Empty State Handling
             Expanded(
               child: BlocBuilder<ExpenseCubit, ExpenseState>(
                 builder: (context, state) {
@@ -254,7 +240,6 @@
                   }
 
                   if (state is! ExpenseLoaded || state.filteredExpenses.isEmpty) {
-                    // Renders the modern Empty Expense CTA Widget
                     return const EmptyExpenseWidget();
                   }
 
@@ -264,7 +249,6 @@
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Visual Chart Widget using all expenses state
                         ExpensePieChartWidget(expenses: state.allExpenses),
 
                         const Padding(

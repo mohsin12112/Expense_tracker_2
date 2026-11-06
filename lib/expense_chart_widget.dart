@@ -89,8 +89,6 @@ class _ExpensePieChartWidgetState extends State<ExpensePieChartWidget> {
               ),
             ),
             const SizedBox(height: 16),
-
-            // Legend
             Wrap(
               spacing: 16,
               runSpacing: 8,

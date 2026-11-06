@@ -6,7 +6,6 @@ import 'package:printing/printing.dart';
 import 'expense_model.dart';
 
 class ExpenseExportService {
-  /// Generates a CSV file from expenses and saves it locally
   static Future<File> exportToCSV(List<Expense> expenses) async {
     final List<List<dynamic>> rows = [
       ['ID', 'Title', 'Amount (PKR)', 'Category', 'Date'],
@@ -22,7 +21,6 @@ class ExpenseExportService {
       ]);
     }
 
-    // Pure Dart CSV Converter (zero dependency issues)
     final String csvData = rows.map((row) {
       return row.map((field) => '"${field.toString().replaceAll('"', '""')}"').join(',');
     }).join('\n');
@@ -34,7 +32,6 @@ class ExpenseExportService {
     return await file.writeAsString(csvData);
   }
 
-  /// Generates a PDF Financial Report and opens the system print/share preview
   static Future<void> exportToPDF(List<Expense> expenses) async {
     final pdf = pw.Document();
 
@@ -49,7 +46,6 @@ class ExpenseExportService {
             child: pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
-                // Header Title
                 pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
@@ -69,8 +65,6 @@ class ExpenseExportService {
                 ),
                 pw.Divider(thickness: 2, color: PdfColors.teal900),
                 pw.SizedBox(height: 16),
-
-                // Summary Total Box
                 pw.Container(
                   padding: const pw.EdgeInsets.all(12),
                   decoration: pw.BoxDecoration(
@@ -100,8 +94,6 @@ class ExpenseExportService {
                   ),
                 ),
                 pw.SizedBox(height: 20),
-
-                // Transactions Table
                 pw.Table.fromTextArray(
                   headers: ['Category', 'Title', 'Date', 'Amount (PKR)'],
                   data: expenses.map((e) {
@@ -131,7 +123,6 @@ class ExpenseExportService {
       ),
     );
 
-    // Open native print & preview dialog
     await Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async => pdf.save(),
       name: 'Expense_Report_${DateTime.now().millisecondsSinceEpoch}.pdf',

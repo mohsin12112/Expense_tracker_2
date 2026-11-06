@@ -58,8 +58,6 @@ class BudgetCardWidget extends StatelessWidget {
         final totalSpent = state.totalExpense;
         final budget = state.monthlyBudget;
         final progress = state.budgetProgress;
-
-        // Dynamic progress color indicator
         Color progressColor = Colors.teal;
         if (progress >= 0.9) {
           progressColor = Colors.redAccent;
@@ -94,7 +92,6 @@ class BudgetCardWidget extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                       ),
                       const SizedBox(width: 4),
-                      // Edit Button Icon
                       InkWell(
                         onTap: () => _showEditBudgetDialog(context, budget),
                         borderRadius: BorderRadius.circular(12),
