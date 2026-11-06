@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:expense_tracker_2/expense_cubit.dart';
 import 'package:expense_tracker_2/expense_model.dart';
+import 'package:expense_tracker_2/expense_repository.dart';
 import 'mock_expense_repository.dart';
 
 void main() {
@@ -64,7 +65,7 @@ void main() {
         await pumpEventQueue();
         await cubit.addExpense(testExpense);
       },
-      skip: 1, // Skip initial ExpenseLoaded from constructor
+      skip: 1,
       expect: () => [
         isA<ExpenseLoaded>()
             .having((s) => s.allExpenses.length, 'allExpenses length', 1)
@@ -94,7 +95,7 @@ void main() {
         await pumpEventQueue();
         cubit.updateCategoryFilter('Food');
       },
-      skip: 1, // Skip initial unfiltered ExpenseLoaded from constructor
+      skip: 1,
       expect: () => [
         isA<ExpenseLoaded>()
             .having((s) => s.filteredExpenses.length, 'filteredExpenses length', 1)

@@ -1,4 +1,6 @@
-class Expense {
+import 'package:equatable/equatable.dart';
+
+class Expense extends Equatable {
   final String id;
   final String title;
   final double amount;
@@ -48,4 +50,7 @@ class Expense {
       date: DateTime.parse(map['date']),
     );
   }
+
+  @override
+  List<Object?> get props => [id, title, amount, category, date];
 }

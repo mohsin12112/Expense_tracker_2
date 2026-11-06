@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'expense_model.dart';
@@ -5,8 +6,11 @@ import 'expense_repository.dart';
 
 enum SortOption { newest, oldest, amountHighToLow, amountLowToHigh }
 
-sealed class ExpenseState {
+sealed class ExpenseState extends Equatable {
   const ExpenseState();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class ExpenseLoading extends ExpenseState {
@@ -35,11 +39,24 @@ class ExpenseLoaded extends ExpenseState {
 
   double get budgetProgress =>
       monthlyBudget > 0 ? (totalExpense / monthlyBudget).clamp(0.0, 1.0) : 0.0;
+
+  @override
+  List<Object?> get props => [
+    allExpenses,
+    filteredExpenses,
+    searchQuery,
+    selectedCategory,
+    sortOption,
+    monthlyBudget,
+  ];
 }
 
 class ExpenseError extends ExpenseState {
   final String message;
   const ExpenseError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
 
 class ExpenseCubit extends Cubit<ExpenseState> {

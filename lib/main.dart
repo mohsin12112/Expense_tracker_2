@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
             title: 'Expense Tracker',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: themeMode, // Reactively updates app theme
+            themeMode: themeMode,
             home: const SplashScreen(),
           );
         },
